@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <div id="editModeBanner" style="display:none; padding:10px; margin-bottom:10px; background:#fff3cd; border:1px solid #ffeeba;">
+    ✏️ Editing Mode: <span id="editingTitle"></span>
+</div>
+
+<button id="cancelEditBtn" onclick="cancelEdit()" style="display:none; margin-bottom:10px;">
+    Cancel Edit
+</button>
+
+<meta charset="UTF-8">
+
+<title>Library Manager</title>
+
+<link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body>
+
+<<div class="container">
+
+<h2>Intervention Library Manager</h2>
+
+<div class="layout">
+
+    <!-- LEFT: LIST -->
+    <div class="sidebar">
+
+        <h3>Library</h3>
+
+        <div id="libraryList"></div>
+
+    </div>
+
+    <!-- RIGHT: EDITOR -->
+    <div class="editor">
+
+        <div id="editModeBanner" style="display:none; padding:10px; margin-bottom:10px; background:#fff3cd; border:1px solid #ffeeba;">
+            ✏️ Editing: <span id="editingTitle"></span>
+        </div>
+
+        <button id="cancelEditBtn" onclick="cancelEdit()" style="display:none; margin-bottom:10px;">
+            Cancel Edit
+        </button>
+
+        <h3>Intervention Editor</h3>
+
+        <label>Title</label><br>
+        <input id="title" style="width:100%;"><br><br>
+
+        <label>Theory</label><br>
+        <select id="theory">
+            <option>ACT</option>
+            <option>CBT</option>
+            <option>DBT</option>
+            <option>MI</option>
+            <option>EFT</option>
+            <option>Person-Centered</option>
+            <option>Existential</option>
+            <option>Other</option>
+        </select>
+
+        <br><br>
+
+        <label>Category</label><br>
+        <input id="category" style="width:100%;"><br><br>
+
+        <label>Documentation</label><br>
+        <textarea id="text" style="height:200px; width:100%;"></textarea>
+
+        <br><br>
+
+        <button onclick="saveIntervention()">Save Intervention</button>
+
+    </div>
+
+</div>
+
+</div>
+
+</button>
+
+<hr>
+
+<h3>Current Library</h3>
+
+<div id="libraryList"></div>
+
+</div>
+
+<script src="js/libraryManager.js"></script>
+
+</body>
+
+</html>

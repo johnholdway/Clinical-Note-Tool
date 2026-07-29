@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Clinical Note Tool</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #f5f5f5;
+    margin: 20px;
+}
+
+.container {
+    max-width: 1500px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.mainLayout{
+    display:flex;
+    gap:20px;
+    align-items:flex-start;
+}
+
+.sidebar{
+    width:300px;
+    flex-shrink:0;
+    border-right:1px solid #ddd;
+    padding-right:15px;
+}
+
+.content{
+    flex:1;
+}
+
+h3 {
+    margin-top: 20px;
+}
+
+textarea {
+    width: 100%;
+    height: 80px;
+    margin-bottom: 10px;
+}
+
+button{
+    width:100%;
+    margin-bottom:6px;
+    padding:8px;
+    text-align:left;
+}
+
+#copyButton{
+
+    width:220px;
+
+    height:40px;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+}
+
+#library {
+    display: flex;
+    flex-wrap: wrap;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>CLINICAL NOTE TOOL</h2>
+
+<div class="mainLayout">
+
+<div class="sidebar">
+
+<h3>INTERVENTION LIBRARY</h3>
+
+<div id="library"></div>
+
+</div>
+
+<div class="content">
+
+<!-- SESSION INFO -->
+
+<h3>SESSION DETAILS</h3>
+
+<label>Session Type:</label>
+<select id="sessionType" onchange="updateSessionHeader()">
+    <option value="inperson">In-Person</option>
+    <option value="video">Telehealth (SimplePractice)</option>
+</select>
+
+<br><br>
+
+<label>Pronoun:</label>
+<select id="pronoun" onchange="updateSessionHeader()">
+    <option value="they">they/their</option>
+    <option value="she">she/her</option>
+    <option value="he">he/him</option>
+</select>
+
+<br><br>
+
+<label>Start Time:</label>
+<input type="time" id="startTime" onchange="updateSessionHeader()">
+
+<label>End Time:</label>
+<input type="time" id="endTime" onchange="updateSessionHeader()">
+
+<h3>SESSION PREAMBLE</h3>
+<textarea id="sessionHeaderPreview" readonly></textarea>
+
+<h3>SESSION SUMMARY</h3>
+<textarea id="summary"></textarea>
+
+<h3>THERAPEUTIC INTERVENTIONS</h3>
+<textarea id="interventions"></textarea>
+
+<h3>CLIENT RESPONSE</h3>
+<textarea id="response"></textarea>
+
+<h3>ASSESSMENT</h3>
+<textarea id="assessment"></textarea>
+
+<h3>RISK ASSESSMENT</h3>
+
+<label>Suicide Risk:</label>
+<select id="suicideRisk" onchange="updateRisk()">
+    <option>Client denied suicidal ideation.</option>
+    <option>Passive suicidal ideation without plan.</option>
+    <option>Active suicidal ideation with plan.</option>
+    <option>Further assessment indicated.</option>
+</select>
+
+<br><br>
+
+<label>Self-Harm Risk:</label>
+<select id="selfHarmRisk" onchange="updateRisk()">
+    <option>Client denied thoughts or behaviors of self-harm.</option>
+    <option>History of self-harm; no current urges.</option>
+    <option>Current urges reported.</option>
+    <option>Current self-harm behavior reported.</option>
+</select>
+
+<br><br>
+
+<label>Homicidality:</label>
+<select id="homicideRisk" onchange="updateRisk()">
+    <option>Client denied homicidal ideation.</option>
+    <option>Passive homicidal thoughts.</option>
+    <option>Active homicidal ideation.</option>
+</select>
+
+<br><br>
+
+<label>Substance Use Risk:</label>
+<select id="substanceRisk" onchange="updateRisk()">
+    <option>No current concerns reported.</option>
+    <option>Mild concern.</option>
+    <option>Moderate concern.</option>
+    <option>High concern.</option>
+</select>
+
+<br><br>
+
+<textarea id="risk"></textarea>
+
+<h3>MSE</h3>
+
+<label>Appearance:</label>
+<select id="appearance" onchange="updateMSE()">
+<option>Well-groomed.</option>
+<option>Casually dressed.</option>
+<option>Disheveled.</option>
+</select>
+
+<label>Behavior:</label>
+<select id="behavior" onchange="updateMSE()">
+<option>Cooperative.</option>
+<option>Guarded.</option>
+<option>Agitated.</option>
+<option>Calm.</option>
+</select>
+
+<label>Speech:</label>
+<select id="speech" onchange="updateMSE()">
+<option>Normal rate and volume.</option>
+<option>Pressured.</option>
+<option>Slow.</option>
+<option>Soft.</option>
+</select>
+
+<label>Mood:</label>
+<select id="mood" onchange="updateMSE()">
+<option>Euthymic.</option>
+<option>Anxious.</option>
+<option>Depressed.</option>
+<option>Irritable.</option>
+</select>
+
+<label>Affect:</label>
+<select id="affect" onchange="updateMSE()">
+<option>Congruent with mood.</option>
+<option>Restricted.</option>
+<option>Flat.</option>
+<option>Labile.</option>
+</select>
+
+<label>Thought Content:</label>
+<select id="thoughtContent" onchange="updateMSE()">
+<option>Reality-based.</option>
+<option>No delusional content observed.</option>
+<option>Obsessive thought content.</option>
+<option>Ruminative thought content.</option>
+</select>
+
+<label>Thought Process:</label>
+<select id="thoughtProcess" onchange="updateMSE()">
+<option>Linear and goal-directed.</option>
+<option>Circumstantial.</option>
+<option>Tangential.</option>
+<option>Flight of ideas.</option>
+</select>
+
+<label>Perception:</label>
+<select id="perception" onchange="updateMSE()">
+<option>No perceptual disturbances reported or observed.</option>
+<option>Auditory hallucinations reported.</option>
+<option>Visual hallucinations reported.</option>
+</select>
+
+<label>Cognition:</label>
+<select id="cognition" onchange="updateMSE()">
+<option>Alert and oriented ×4.</option>
+<option>Mild memory impairment.</option>
+<option>Distractible.</option>
+</select>
+
+<label>Insight:</label>
+<select id="insight" onchange="updateMSE()">
+<option>Good.</option>
+<option>Fair.</option>
+<option>Limited.</option>
+<option>Poor.</option>
+</select>
+
+<label>Judgment:</label>
+<select id="judgment" onchange="updateMSE()">
+<option>Good.</option>
+<option>Fair.</option>
+<option>Limited.</option>
+<option>Poor.</option>
+</select>
+
+<br><br>
+
+<textarea id="mse"></textarea>
+
+<h3>PLAN</h3>
+<textarea id="plan"></textarea>
+
+<br>
+<button id="copyButton" onclick="copyNote()">Copy Note</button>
+</div>
+</div>
+</div>
+
+<footer>
+
+<p>
+    Clinical Note Tool<br>
+A local-first documentation workspace<br>
+<a href="README.md">Documentation</a>
+|
+<a href="DISCLAIMER.md">Disclaimer</a>
+|
+<a href="PRIVACY.md">Privacy</a>
+</p>
+
+<p>
+MIT License © 2026 John Holdway Jr.
+</p>
+
+</footer>
+
+<!-- LOAD LIBRARY -->
+<script src="js/interventions.js"></script>
+<script src="js/app.js"></script>
+<script>
+
+function addText(text) {
+    const box = document.getElementById("interventions");
+    if (box.value.trim() !== "") {
+        box.value += "\n";
+    }
+    box.value += text;
+}
+
+/* GET ALL LIBRARIES (future-proofing) */
+function getLibrary() {
+
+    const saved = localStorage.getItem("clinicalLibrary");
+
+    return saved ? JSON.parse(saved) : [];
+}
+
+/* BUILD LIBRARY UI */
+function buildLibrary() {
+
+    const container = document.getElementById("library");
+    container.innerHTML = "";
+
+    const items = getLibrary();
+
+    // Group interventions by theory
+    const groups = {};
+
+    items.forEach(item => {
+
+        if (!groups[item.theory]) {
+            groups[item.theory] = [];
+        }
+
+        groups[item.theory].push(item);
+
+    });
+
+    Object.keys(groups).sort().forEach(theory => {
+
+        // Create heading button
+        const heading = document.createElement("button");
+        heading.className = "categoryButton";
+        heading.textContent = "▼ " + theory;
+
+        // Create collapsible section
+        const section = document.createElement("div");
+        section.className = "categorySection";
+        section.style.display = "block";
+
+        // Toggle open/closed
+        heading.addEventListener("click", function () {
+
+            if (section.style.display === "none") {
+
+                section.style.display = "block";
+                heading.textContent = "▼ " + theory;
+
+            } else {
+
+                section.style.display = "none";
+                heading.textContent = "▶ " + theory;
+
+            }
+
+        });
+
+        // Add intervention buttons
+        groups[theory].forEach(item => {
+
+            const btn = document.createElement("button");
+
+            btn.textContent = item.title;
+
+            btn.onclick = function () {
+                addText(item.text);
+            };
+
+            section.appendChild(btn);
+
+        });
+
+        container.appendChild(heading);
+        container.appendChild(section);
+
+    });
+
+}
+
+/* COPY FINAL NOTE */
+function updateRisk() {
+
+document.getElementById("risk").value =
+`Suicide Risk: ${document.getElementById("suicideRisk").value}
+
+Self-harm Risk: ${document.getElementById("selfHarmRisk").value}
+
+Homicidality Risk: ${document.getElementById("homicideRisk").value}
+
+Substance Use Risk: ${document.getElementById("substanceRisk").value}`;
+
+}
+
+function updateMSE() {
+
+document.getElementById("mse").value =
+`Appearance: ${document.getElementById("appearance").value}
+
+Behavior: ${document.getElementById("behavior").value}
+
+Speech: ${document.getElementById("speech").value}
+
+Mood: ${document.getElementById("mood").value}
+
+Affect: ${document.getElementById("affect").value}
+
+Thought Content: ${document.getElementById("thoughtContent").value}
+
+Thought Process: ${document.getElementById("thoughtProcess").value}
+
+Perception: ${document.getElementById("perception").value}
+
+Cognition: ${document.getElementById("cognition").value}
+
+Insight: ${document.getElementById("insight").value}
+
+Judgment: ${document.getElementById("judgment").value}`;
+
+}
+{
+
+    const note = `
+SESSION SUMMARY:
+${document.getElementById("summary").value}
+
+THERAPEUTIC INTERVENTIONS:
+${document.getElementById("interventions").value}
+
+CLIENT RESPONSE:
+${document.getElementById("response").value}
+
+ASSESSMENT:
+${document.getElementById("assessment").value}
+
+RISK ASSESSMENT:
+${document.getElementById("risk").value}
+
+MSE:
+${document.getElementById("mse").value}
+
+PLAN:
+${document.getElementById("plan").value}
+`;
+
+    navigator.clipboard.writeText(note);
+    alert("Note copied");
+}
+
+/* INIT */
+window.addEventListener("DOMContentLoaded", function () {
+
+    buildLibrary();
+
+    updateRisk();
+
+    updateMSE();
+
+    updateSessionHeader();
+
+});
+
+</script>
+
+</body>
+</html>
