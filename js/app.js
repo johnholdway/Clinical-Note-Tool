@@ -4,7 +4,7 @@ let sessionHeader = "";
 
 function addText(text) {
 
-    const box = document.getElementById("interventions");
+    const box = document.getElementById("interventionsLibrary");
 
     if (box.value.trim() !== "") {
         box.value += "\n";
@@ -205,7 +205,7 @@ ${sessionHeader}
 ${document.getElementById("summary").value}
 
 THERAPEUTIC INTERVENTIONS:
-${document.getElementById("interventions").value}
+${document.getElementById("interventionsLibrary").value}
 
 CLIENT RESPONSE:
 ${document.getElementById("response").value}

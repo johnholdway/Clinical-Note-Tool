@@ -124,7 +124,7 @@ button{
 <textarea id="summary"></textarea>
 
 <h3>THERAPEUTIC INTERVENTIONS</h3>
-<textarea id="interventions"></textarea>
+<textarea id="interventionsLibrary"></textarea>
 
 <h3>CLIENT RESPONSE</h3>
 <textarea id="response"></textarea>
@@ -299,7 +299,7 @@ MIT License © 2026 John Holdway Jr.
 <script>
 
 function addText(text) {
-    const box = document.getElementById("interventions");
+    const box = document.getElementById("interventionsLibrary");
     if (box.value.trim() !== "") {
         box.value += "\n";
     }
@@ -317,7 +317,7 @@ function getLibrary() {
 /* BUILD LIBRARY UI */
 function buildLibrary() {
 
-    const container = document.getElementById("library");
+    const container = document.getElementById("libraryList");
     container.innerHTML = "";
 
     const items = getLibrary();
@@ -433,7 +433,7 @@ SESSION SUMMARY:
 ${document.getElementById("summary").value}
 
 THERAPEUTIC INTERVENTIONS:
-${document.getElementById("interventions").value}
+${document.getElementById("interventionsLibrary").value}
 
 CLIENT RESPONSE:
 ${document.getElementById("response").value}
