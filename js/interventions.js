@@ -1,3 +1,5 @@
+console.log("interventions LOADED");
+
 window.interventionsLibrary = [
 
 {

@@ -1,3 +1,5 @@
+console.log("libraryManager LOADED");
+
 let library = [];
 let editingId = null;
 
