@@ -10,7 +10,12 @@ function loadLibrary() {
 
     const saved = localStorage.getItem("clinicalLibrary");
 
-    library = saved ? JSON.parse(saved) : [];
+    if (saved) {
+        library = JSON.parse(saved);
+    } else {
+        library = interventions;
+        saveLibrary();
+    }
 
     refreshLibrary();
 }
