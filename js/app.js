@@ -87,7 +87,7 @@ function getLibrary() {
 /* BUILD LIBRARY UI */
 function buildLibrary() {
 
-    const container = document.getElementById("library");
+    const container = document.getElementById("libraryList");
     container.innerHTML = "";
 
     const items = getLibrary();
