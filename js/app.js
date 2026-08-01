@@ -81,7 +81,11 @@ function getLibrary() {
 
     const saved = localStorage.getItem("clinicalLibrary");
 
-    return saved ? JSON.parse(saved) : [];
+    if (saved) {
+        return JSON.parse(saved);
+    }
+
+    return window.interventionsLibrary || [];
 }
 
 /* BUILD LIBRARY UI */
